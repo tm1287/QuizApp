@@ -48,13 +48,13 @@ public class Quiz extends AppCompatActivity {
         currentQuestionIndex = 0;
         questions = new ArrayList<Question>();
 
-        questions.add(new Question(0, "Which president is shown here seated next to Churchill?",
+        questions.add(new Question(R.mipmap.roos, "Which president is shown here seated next to Churchill?",
                 "Eisenhower", "F.D. Roosevelt", "Nixon", "b"));
-        questions.add(new Question(0, "Who is the Watergate president?",
+        questions.add(new Question(R.mipmap.nixon, "Who is the Watergate president?",
                 "Carter", "Reagan", "Nixon", "c"));
-        questions.add(new Question(0, "Which president shown here help normalize relations with China?",
+        questions.add(new Question(R.mipmap.carter, "Which president shown here help normalize relations with China?",
                 "Carter", "F.D. Roosevelt", "Nixon", "a"));
-        questions.add(new Question(0, "Which president approved the use of the A-bomb?",
+        questions.add(new Question(R.mipmap.atomic, "Which president approved the use of the A-bomb?",
                 "Truman", "F.D. Roosevelt", "Kennedy", "a"));
 
         this.displayQuestion(currentQuestionIndex);
@@ -87,6 +87,7 @@ public class Quiz extends AppCompatActivity {
     }
 
     private void displayQuestion(int index){
+        iv_picture.setImageResource(questions.get(currentQuestionIndex).getPictureID());
         tv_question.setText(questions.get(currentQuestionIndex).getQuestionText());
         rb_choiceA.setText(questions.get(currentQuestionIndex).getChoiceA());
         rb_choiceB.setText(questions.get(currentQuestionIndex).getChoiceB());
