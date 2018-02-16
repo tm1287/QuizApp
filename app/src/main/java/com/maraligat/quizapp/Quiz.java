@@ -70,7 +70,7 @@ public class Quiz extends AppCompatActivity {
                 if(rb_selected == rb_choiceC) answer = "c";
                 return questions.get(currentQuestionIndex).isCorrectAnswer(answer);
             }
-            
+
             @Override
             public void onClick(View view) {
                 if(this.answerIsRight()){
