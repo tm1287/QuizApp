@@ -1,6 +1,7 @@
 package com.maraligat.quizapp;
 
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +10,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
 public class Quiz extends AppCompatActivity {
@@ -20,14 +20,17 @@ public class Quiz extends AppCompatActivity {
     private static RadioButton rb_choiceA;
     private static RadioButton rb_choiceB;
     private static RadioButton rb_choiceC;
+
     private static TextView tv_question;
+    private static TextView tv_score;
 
     private static Button b_submit;
 
     private int currentQuestionIndex;
     private ArrayList<Question> questions;
 
-
+    public int score = 0;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class Quiz extends AppCompatActivity {
         rb_choiceC = (RadioButton)findViewById(R.id.c_rb);
         tv_question = (TextView)findViewById(R.id.question_tv);
         b_submit = (Button)findViewById(R.id.submit_b);
+        tv_score = (TextView)findViewById(R.id.score_tv);
 
         currentQuestionIndex = 0;
         questions = new ArrayList<Question>();
@@ -58,6 +62,8 @@ public class Quiz extends AppCompatActivity {
                 "Truman", "F.D. Roosevelt", "Kennedy", "a"));
 
         this.displayQuestion(currentQuestionIndex);
+
+        tv_score.setText("Score: " + score);
 
         b_submit.setOnClickListener(new View.OnClickListener() {
 
@@ -76,13 +82,17 @@ public class Quiz extends AppCompatActivity {
                 if(this.answerIsRight()){
                     Toast.makeText(getApplicationContext(), "Right!", Toast.LENGTH_SHORT).show();
                     advance();
+                    if (!questions.get(currentQuestionIndex).isCreditAlreadyGiven()){
+                        score += 1;
+                        questions.get(currentQuestionIndex).setCreditAlreadyGiven(true);
+                        tv_score.setText("Score: " + score);
+                    }
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Wrong!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
 
     }
 
@@ -100,7 +110,7 @@ public class Quiz extends AppCompatActivity {
         displayQuestion(currentQuestionIndex);
     }
 
+    private void speakText(){
 
-
-
+    }
 }
