@@ -1,7 +1,7 @@
 package com.maraligat.quizapp;
 
 /**
- * Created by Tejas Maraliga on 2/15/2018.
+ * @author Created by Tejas Maraliga on 2/15/2018.
  */
 
 public class Question {
