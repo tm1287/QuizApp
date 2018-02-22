@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Quiz extends AppCompatActivity {
     private static ImageView iv_picture;
@@ -30,7 +31,8 @@ public class Quiz extends AppCompatActivity {
     private ArrayList<Question> questions;
 
     public int score = 0;
-    
+
+    TextToSpeech TTS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class Quiz extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(this.answerIsRight()){
+                    TTS.speak("Right", TextToSpeech.QUEUE_FLUSH,null);
                     Toast.makeText(getApplicationContext(), "Right!", Toast.LENGTH_SHORT).show();
                     advance();
                     if (!questions.get(currentQuestionIndex).isCreditAlreadyGiven()){
@@ -90,6 +93,16 @@ public class Quiz extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Wrong!", Toast.LENGTH_SHORT).show();
+                    TTS.speak("Wrong", TextToSpeech.QUEUE_FLUSH,null);
+                }
+            }
+        });
+
+        TTS = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR){
+                    TTS.setLanguage(Locale.ENGLISH);
                 }
             }
         });
@@ -110,7 +123,4 @@ public class Quiz extends AppCompatActivity {
         displayQuestion(currentQuestionIndex);
     }
 
-    private void speakText(){
-
-    }
 }
