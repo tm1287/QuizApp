@@ -3,8 +3,10 @@ package com.maraligat.quizapp;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -26,13 +28,16 @@ public class Quiz extends AppCompatActivity {
     private static TextView tv_score;
 
     private static Button b_submit;
+    private static Button b_search;
+
+    private static EditText et_search;
 
     private int currentQuestionIndex;
     private ArrayList<Question> questions;
 
     public int score = 0;
 
-    TextToSpeech TTS;
+    private static TextToSpeech TTS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,9 @@ public class Quiz extends AppCompatActivity {
         rb_choiceC = (RadioButton)findViewById(R.id.c_rb);
         tv_question = (TextView)findViewById(R.id.question_tv);
         b_submit = (Button)findViewById(R.id.submit_b);
+        b_search = (Button)findViewById(R.id.search_b);
         tv_score = (TextView)findViewById(R.id.score_tv);
+        et_search = (EditText)findViewById(R.id.search_et);
 
         currentQuestionIndex = 0;
         questions = new ArrayList<Question>();
@@ -98,6 +105,13 @@ public class Quiz extends AppCompatActivity {
             }
         });
 
+        b_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search();
+            }
+        });
+
         TTS = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -109,6 +123,30 @@ public class Quiz extends AppCompatActivity {
 
     }
 
+
+    private void search(){
+        String search_text = et_search.getText().toString();
+        for(int i = 0; i < questions.size(); ++i){
+            System.out.println(search_text);
+            if(questions.get(i).getQuestionText().toString().toLowerCase().contains(search_text.toLowerCase())){
+                currentQuestionIndex = i;
+                break;
+            }
+            else if(questions.get(i).getChoiceA().toString().toLowerCase().contains(search_text.toLowerCase())){
+                currentQuestionIndex = i;
+                break;
+            }
+            else if(questions.get(i).getChoiceB().toString().toLowerCase().contains(search_text.toLowerCase())){
+                currentQuestionIndex = i;
+                break;
+            }
+            else if(questions.get(i).getChoiceC().toString().toLowerCase().contains(search_text.toLowerCase())){
+                currentQuestionIndex = i;
+                break;
+            }
+        }
+        displayQuestion(currentQuestionIndex);
+    }
     private void displayQuestion(int index){
         iv_picture.setImageResource(questions.get(currentQuestionIndex).getPictureID());
         tv_question.setText(questions.get(currentQuestionIndex).getQuestionText());
